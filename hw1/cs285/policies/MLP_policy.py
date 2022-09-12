@@ -121,9 +121,7 @@ class MLPPolicySL(MLPPolicy):
         loss = self.loss(actions_pred, actions)
         self.zero_grad()
         loss.backward()
-        with torch.no_grad():
-            for param in self.parameters():
-                param.data -= self.learning_rate * param.grad
+        self.optimizer.step()
 
         return {
             # You can add extra logging information here, but keep this line

@@ -184,3 +184,115 @@ Initial_DataCollection_AverageReturn : 5566.845703125
 ```
 
 * `--n_iter 100 --ep_len 1000 --eval_batch_size 5000 --num_agent_train_steps_per_iter 10000`
+
+```
+Eval_AverageReturn : 539.0479125976562
+Eval_StdReturn : 152.84634399414062
+Eval_MaxReturn : 1091.467529296875
+Eval_MinReturn : 389.1151123046875
+Eval_AverageEpLen : 169.86666666666667
+Train_AverageReturn : 34.8885612487793
+Train_StdReturn : 0.6078105568885803
+Train_MaxReturn : 35.98003387451172
+Train_MinReturn : 33.846641540527344
+Train_AverageEpLen : 40.0
+Train_EnvstepsSoFar : 99011
+TimeSinceStart : 928.1692872047424
+Training Loss : 0.0008697555749677122
+Initial_DataCollection_AverageReturn : 5566.845703125
+```
+
+* `--n_iter 50 --ep_len 1000 --eval_batch_size 5000 --num_agent_train_steps_per_iter 10000 --n_layers 4`
+
+```
+Eval_AverageReturn : 1337.567138671875
+Eval_StdReturn : 1245.0079345703125
+Eval_MaxReturn : 4390.490234375
+Eval_MinReturn : 292.4056396484375
+Eval_AverageEpLen : 318.6875
+Train_AverageReturn : 35.080814361572266
+Train_StdReturn : 0.8201188445091248
+Train_MaxReturn : 36.76027297973633
+Train_MinReturn : 33.53729248046875
+Train_AverageEpLen : 40.0
+Train_EnvstepsSoFar : 49004
+TimeSinceStart : 401.9557182788849
+Training Loss : 0.0014777682954445481
+Initial_DataCollection_AverageReturn : 5566.845703125
+```
+
+* `--n_iter 50 --ep_len 10000 --eval_batch_size 50000 --num_agent_train_steps_per_iter 10000 --n_layers 4`
+
+```
+Eval_AverageReturn : 1290.2786865234375
+Eval_StdReturn : 1242.4461669921875
+Eval_MaxReturn : 5337.75830078125
+Eval_MinReturn : 223.95962524414062
+Eval_AverageEpLen : 308.7283950617284
+Train_AverageReturn : 34.72490692138672
+Train_StdReturn : 0.7058006525039673
+Train_MaxReturn : 36.245079040527344
+Train_MinReturn : 33.341773986816406
+Train_AverageEpLen : 40.0
+Train_EnvstepsSoFar : 49037
+TimeSinceStart : 723.4485321044922
+Training Loss : 0.0014196931151673198
+Initial_DataCollection_AverageReturn : 5566.845703125
+```
+
+* `--n_iter 50 --ep_len 1000 --eval_batch_size 5000 --num_agent_train_steps_per_iter 10000 --n_layers 6`
+
+```
+Eval_AverageReturn : 467.9891662597656
+Eval_StdReturn : 102.46186065673828
+Eval_MaxReturn : 795.5381469726562
+Eval_MinReturn : 282.3546447753906
+Eval_AverageEpLen : 156.5
+Train_AverageReturn : 35.00904083251953
+Train_StdReturn : 0.9365123510360718
+Train_MaxReturn : 37.12461853027344
+Train_MinReturn : 32.941497802734375
+Train_AverageEpLen : 40.0
+Train_EnvstepsSoFar : 49003
+TimeSinceStart : 472.13244104385376
+Training Loss : 0.0012332041515037417
+Initial_DataCollection_AverageReturn : 5566.845703125
+```
+
+* `--n_iter 50 --ep_len 1000 --eval_batch_size 5000 --num_agent_train_steps_per_iter 10000 --n_layers 4 --size 128`
+
+```
+Eval_AverageReturn : 374.1451110839844
+Eval_StdReturn : 376.7660217285156
+Eval_MaxReturn : 2154.695068359375
+Eval_MinReturn : 233.03163146972656
+Eval_AverageEpLen : 137.64864864864865
+Train_AverageReturn : 34.46094512939453
+Train_StdReturn : 0.6734303832054138
+Train_MaxReturn : 36.316078186035156
+Train_MinReturn : 33.425838470458984
+Train_AverageEpLen : 40.0
+Train_EnvstepsSoFar : 49009
+TimeSinceStart : 496.32805728912354
+Training Loss : 0.0007928024861030281
+Initial_DataCollection_AverageReturn : 5566.845703125
+```
+
+* `--n_iter 200 --ep_len 1000 --eval_batch_size 5000 --num_agent_train_steps_per_iter 10000 --n_layers 4`
+
+```
+Eval_AverageReturn : 3960.825439453125
+Eval_StdReturn : 1020.1004028320312
+Eval_MaxReturn : 5201.52734375
+Eval_MinReturn : 2734.312744140625
+Eval_AverageEpLen : 781.1428571428571
+Train_AverageReturn : 34.83725357055664
+Train_StdReturn : 0.767741322517395
+Train_MaxReturn : 36.97075653076172
+Train_MinReturn : 33.943275451660156
+Train_AverageEpLen : 40.0
+Train_EnvstepsSoFar : 199004
+TimeSinceStart : 3269.9124550819397
+Training Loss : 0.00020596006652340293
+Initial_DataCollection_AverageReturn : 5566.845703125
+```
