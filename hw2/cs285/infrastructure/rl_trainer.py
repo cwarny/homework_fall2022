@@ -169,17 +169,17 @@ class RL_Trainer(object):
             train_video_paths: paths which also contain videos for visualization purposes
         """
         print("\nCollecting data to be used for training...")
-        if itr == 0:
-            with open(initial_expertdata, 'rb') as f:
-                loaded_paths = pickle.loads(f.read())
-                return loaded_paths, 0, None
+        # if itr == 0:
+        #     with open(load_initial_expertdata, 'rb') as f:
+        #         loaded_paths = pickle.loads(f.read())
+        #         return loaded_paths, 0, None
 
         paths, envsteps_this_batch = utils.sample_trajectories(self.env, collect_policy, batch_size, MAX_VIDEO_LEN)
 
         # collect more rollouts with the same policy, to be saved as videos in tensorboard
         # note: here, we collect MAX_NVIDEO rollouts, each of length MAX_VIDEO_LEN
         train_video_paths = None
-        if self.log_video:
+        if self.logvideo:
             print('\nCollecting train rollouts to be used for saving videos...')
             train_video_paths = utils.sample_n_trajectories(self.env, collect_policy, MAX_NVIDEO, MAX_VIDEO_LEN, True)
 

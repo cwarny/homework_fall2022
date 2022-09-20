@@ -93,7 +93,8 @@ class MLPPolicy(BasePolicy, nn.Module, metaclass=abc.ABCMeta):
 
         observation = ptu.from_numpy(observation.astype(np.float32))
         with torch.no_grad():
-            action = self(observation)
+            dist = self(observation)
+            action = dist.sample()
             return ptu.to_numpy(action)
 
     # update/train this policy
@@ -144,8 +145,9 @@ class MLPPolicyPG(MLPPolicy):
             # by the `forward` method
 
         dist = self(observations)
-        actions = dist.sample()
-        loss = -(dist.log_prob(actions) * advantages).sum()
+        # taking the negative because pytorch minimizes the objective
+        # whereas we want to maximize the weighted logprob
+        loss = -(dist.log_prob(actions) * advantages).mean() # good SO for why taking the mean is better than taking the sum: https://stackoverflow.com/questions/41954308/loss-function-works-with-reduce-mean-but-not-reduce-sum
         self.zero_grad()
         loss.backward()
         self.optimizer.step()
@@ -157,11 +159,17 @@ class MLPPolicyPG(MLPPolicy):
 
             ## Note: You will need to convert the targets into a tensor using
                 ## ptu.from_numpy before using it in the loss
-
-            pass
+            assert q_values is not None
+            preds = self.baseline(observations)
+            q_values = (q_values - q_values.mean())/(q_values.std() + 1e-8)
+            q_values = ptu.from_numpy(q_values).unsqueeze(-1)
+            baseline_loss = self.baseline_loss(preds, q_values)
+            self.baseline.zero_grad()
+            baseline_loss.backward()
+            self.baseline_optimizer.step()
 
         train_log = {
-            'Training Loss': ptu.to_numpy(loss),
+            'Training Loss': ptu.to_numpy(loss)
         }
         return train_log
 

@@ -68,7 +68,12 @@ def init_gpu(use_gpu=True, gpu_id=0):
         print("Using GPU id {}".format(gpu_id))
     else:
         device = torch.device("cpu")
-        print("GPU not detected. Defaulting to CPU.")
+        # try:
+        #     device = torch.device("mps")
+        #     print("Using MPS.")
+        # except RuntimeError:
+        #     device = torch.device("cpu")
+        #     print("Using CPU.")
 
 
 def set_device(gpu_id):
