@@ -69,7 +69,7 @@ class MLPPolicy(BasePolicy, nn.Module, metaclass=abc.ABCMeta):
                 n_layers=self.n_layers,
                 size=self.size,
             )
-            self.baseline.to(device)
+            self.baseline.to(ptu.device)
             self.baseline_optimizer = optim.Adam(
                 self.baseline.parameters(),
                 self.learning_rate,
@@ -86,7 +86,16 @@ class MLPPolicy(BasePolicy, nn.Module, metaclass=abc.ABCMeta):
 
     # query the policy with observation(s) to get selected action(s)
     def get_action(self, obs: np.ndarray) -> np.ndarray:
-        # TODO: get this from HW1
+        if len(obs.shape) > 1:
+            observation = obs
+        else:
+            observation = obs[None]
+
+        observation = ptu.from_numpy(observation.astype(np.float32))
+        with torch.no_grad():
+            dist = self(observation)
+            action = dist.sample()
+            return ptu.to_numpy(action)
 
     # update/train this policy
     def update(self, observations, actions, **kwargs):
@@ -123,6 +132,7 @@ class MLPPolicyPG(MLPPolicy):
         self.baseline_loss = nn.MSELoss()
 
     def update(self, observations, actions, advantages, q_values=None):
+        # `observations` has shape (batch_size, obs_dim)
         observations = ptu.from_numpy(observations)
         actions = ptu.from_numpy(actions)
         advantages = ptu.from_numpy(advantages)
@@ -134,7 +144,13 @@ class MLPPolicyPG(MLPPolicy):
         # HINT2: you will want to use the `log_prob` method on the distribution returned
             # by the `forward` method
 
-        TODO
+        dist = self(observations)
+        # taking the negative because pytorch minimizes the objective
+        # whereas we want to maximize the weighted logprob
+        loss = -(dist.log_prob(actions) * advantages).mean() # good SO for why taking the mean is better than taking the sum: https://stackoverflow.com/questions/41954308/loss-function-works-with-reduce-mean-but-not-reduce-sum
+        self.zero_grad()
+        loss.backward()
+        self.optimizer.step()
 
         if self.nn_baseline:
             ## TODO: update the neural network baseline using the q_values as
@@ -143,11 +159,17 @@ class MLPPolicyPG(MLPPolicy):
 
             ## Note: You will need to convert the targets into a tensor using
                 ## ptu.from_numpy before using it in the loss
-
-            TODO
+            assert q_values is not None
+            preds = self.baseline(observations)
+            q_values = (q_values - q_values.mean())/(q_values.std() + 1e-8)
+            q_values = ptu.from_numpy(q_values).unsqueeze(-1)
+            baseline_loss = self.baseline_loss(preds, q_values)
+            self.baseline.zero_grad()
+            baseline_loss.backward()
+            self.baseline_optimizer.step()
 
         train_log = {
-            'Training Loss': ptu.to_numpy(loss),
+            'Training Loss': ptu.to_numpy(loss)
         }
         return train_log
 
